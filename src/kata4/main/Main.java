@@ -11,12 +11,33 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-
+        Control control = new Control();
         String filename = "email.txt";
-        List<Mail> mailList = new MailListReader().read(filename);
-        Histogram<String> histogram = new MailHistogramBuilder().build(mailList);
+        control.input(filename);
+        control.process();
+        control.output();
+        control.execute();
+    }
 
-        HistogramDisplay histogramDisplay = new HistogramDisplay("JFREECHART HISTOGRAM", histogram);
-        histogramDisplay.execute();
+    static class Control {
+        private List<Mail> mailList;
+        private Histogram<String> histogram;
+        private HistogramDisplay histogramDisplay;
+
+        public void input(String filename) {
+            mailList = new MailListReader().read(filename);
+        }
+
+        public void process() {
+            histogram =  new MailHistogramBuilder().build(mailList);
+        }
+
+        public void output() {
+            histogramDisplay = new HistogramDisplay("JFREECHART HISTOGRAM", histogram);
+        }
+
+        public void execute() {
+            histogramDisplay.execute();
+        }
     }
 }
